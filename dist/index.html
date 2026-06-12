@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Copy Zero-Width Space</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #e6e6e6;
+            font-family: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;
+        }
+
+		.workspace {
+			display: flex;
+			align-items: flex-end;
+			position: relative;
+		}
+
+        .preview-box {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background-color: #e0e0e0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            padding: 25px 45px;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .concentric-outer {
+            width: 32px;
+            height: 44px;
+            border: 1px solid rgb(109, 109, 109);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+
+        .concentric-inner {
+            width: 16px;
+            height: 24px;
+            border: 1px solid rgb(109, 109, 109);
+            box-sizing: border-box;
+        }
+
+        .symbol-text {
+			position: relative;
+			top: 4px;
+            font-size: 52px;
+            line-height: 1;
+            color: #000;
+            font-weight: normal;
+        }
+
+        .copy-trigger {
+			position: absolute;
+			left: 100%;
+			margin-left: 16px;
+			bottom: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            cursor: pointer;
+            background-color: transparent;
+            border: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #666;
+            transition: background-color 0.15s ease, color 0.15s ease, transform 0.1s ease;
+            margin-bottom: -4px; /* Fine-tune bottom alignment offset */
+        }
+        
+        .copy-trigger:hover {
+            background-color: #d8d8d8;
+        }
+        
+        .copy-trigger:active {
+            color: #000;
+        }
+
+        .icon-state {
+            width: 24px;
+            height: 24px;
+            display: none;
+        }
+
+        #copyIcon { display: block; }
+        #checkIcon { color: #666; display: none; }
+    </style>
+</head>
+<body>
+
+    <div class="workspace">
+        <div class="preview-box">
+            <div class="concentric-outer">
+                <div class="concentric-inner"></div>
+            </div>
+            <div class="symbol-text">¶</div>
+        </div>
+
+        <button class="copy-trigger" onclick="executeCopy()" title="Copy Zero-Width Space" aria-label="Copy to clipboard">
+            <svg id="copyIcon" class="icon-state" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+				<!-- Icon from Material Symbols by Google - https://github.com/google/material-design-icons/blob/master/LICENSE -->
+                <path fill="currentColor" d="M9 18q-.825 0-1.412-.587T7 16V4q0-.825.588-1.412T9 2h9q.825 0 1.413.588T20 4v12q0 .825-.587 1.413T18 18zm0-2h9V4H9zm-4 6q-.825 0-1.412-.587T3 20V6h2v14h11v2zm4-6V4z"/>
+            </svg>
+            
+			<svg id="checkIcon" class="icon-state" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24">
+				<!-- Icon from Material Design Icons by Pictogrammers - https://github.com/Templarian/MaterialDesign/blob/master/LICENSE -->
+				<path fill="currentColor" d="M21 7L9 19l-5.5-5.5l1.41-1.41L9 16.17L19.59 5.59z"/>
+			</svg>
+			
+        </button>
+    </div>
+
+    <script>
+        function executeCopy() {
+            navigator.clipboard.writeText('\u200B').then(() => {
+                const copyIcon = document.getElementById('copyIcon');
+                const checkIcon = document.getElementById('checkIcon');
+
+                copyIcon.style.display = 'none';
+                checkIcon.style.display = 'block';
+
+                setTimeout(() => {
+                    copyIcon.style.display = 'block';
+                    checkIcon.style.display = 'none';
+                }, 2000);
+            });
+        }
+    </script>
+
+</body>
+</html>
